@@ -16,11 +16,16 @@ endif
 badd +1 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/output.txt
 badd +2 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/input.txt
 badd +25 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/sort_ll.cpp
-badd +0 atozdsa/step6/med_probs_of_ll/sort_ll_of_012.cpp
+badd +12 atozdsa/step6/med_probs_of_ll/sort_ll_of_012.cpp
+badd +34 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/sort_ll_using_merge_sort.cpp
+badd +56 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/intersection_of_2lls.cpp
+badd +41 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/add1.cpp
+badd +9 atozdsa/step6/med_probs_of_ll/reverse_single_ll.cpp
+badd +30 ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/add_2_nos.cpp
 argglobal
 %argdel
 $argadd ./
-edit atozdsa/step6/med_probs_of_ll/sort_ll_of_012.cpp
+edit ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/add_2_nos.cpp
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -41,13 +46,12 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 111 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 105 + 85) / 170)
 exe '2resize ' . ((&lines * 18 + 20) / 40)
-exe 'vert 2resize ' . ((&columns * 58 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 64 + 85) / 170)
 exe '3resize ' . ((&lines * 18 + 20) / 40)
-exe 'vert 3resize ' . ((&columns * 58 + 85) / 170)
+exe 'vert 3resize ' . ((&columns * 64 + 85) / 170)
 argglobal
-balt ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/sort_ll.cpp
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -56,12 +60,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 36 - ((33 * winheight(0) + 18) / 37)
+let s:l = 30 - ((29 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 36
-normal! 0
+keepjumps 30
+normal! 025|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/input.txt", ":p")) | buffer ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/input.txt | else | edit ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/input.txt | endif
@@ -77,12 +81,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 2 - ((1 * winheight(0) + 9) / 18)
+let s:l = 4 - ((3 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 2
-normal! 07|
+keepjumps 4
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/output.txt", ":p")) | buffer ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/output.txt | else | edit ~/repos/DSA/Striver/atozdsa/step6/med_probs_of_ll/output.txt | endif
@@ -105,11 +109,11 @@ normal! zt
 keepjumps 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 111 + 85) / 170)
+exe 'vert 1resize ' . ((&columns * 105 + 85) / 170)
 exe '2resize ' . ((&lines * 18 + 20) / 40)
-exe 'vert 2resize ' . ((&columns * 58 + 85) / 170)
+exe 'vert 2resize ' . ((&columns * 64 + 85) / 170)
 exe '3resize ' . ((&lines * 18 + 20) / 40)
-exe 'vert 3resize ' . ((&columns * 58 + 85) / 170)
+exe 'vert 3resize ' . ((&columns * 64 + 85) / 170)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
