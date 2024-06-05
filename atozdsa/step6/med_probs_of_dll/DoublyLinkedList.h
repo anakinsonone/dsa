@@ -16,5 +16,6 @@ std::vector<int> getInputsForDLL();
 Node *createDLL(std::vector<int> arr);
 void printDLL(Node *head);
 Node *reverseDLL(Node *head);
+int getLengthOfDLL(Node *head);
 
 #endif // !DOUBLY_LINKED_LIST
