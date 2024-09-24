@@ -20,15 +20,16 @@
 #include <bits/stdc++.h>
 
 std::string processString(std::string s) {
+  std::string sanitizedS;
   for (int i = 0; i < s.length(); i++) {
-    if (s[i] < 'A' || s[i] > 'Z' && s[i] < 'a' || s[i] > 'z') {
-      s.erase(i, 1);
-      i--;
+    if (!(s[i] < 'A' || s[i] > 'Z' && s[i] < 'a' || s[i] > 'z')) {
+      char c = std::tolower(s[i]);
+      sanitizedS += c;
     }
   }
 
-  transform(s.begin(), s.end(), s.begin(), ::tolower);
-  return s;
+  std::cout << sanitizedS << '\n';
+  return sanitizedS;
 }
 
 bool isPalindrome(std::string s) {
