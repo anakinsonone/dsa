@@ -18,29 +18,32 @@
  * Explanation: "tabacat" is not a palindrome.
 */
 #include <bits/stdc++.h>
+#include <iostream>
 
-std::string processString(std::string s) {
-  std::string sanitizedS;
-  for (int i = 0; i < s.length(); i++) {
-    if (!(s[i] < 'A' || s[i] > 'Z' && s[i] < 'a' || s[i] > 'z')) {
-      char c = std::tolower(s[i]);
-      sanitizedS += c;
-    }
-  }
-
-  std::cout << sanitizedS << '\n';
-  return sanitizedS;
+bool isAlphaNum(char c) {
+  if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
+      (c >= '0' && c <= '9'))
+    return true;
+  else
+    return false;
 }
 
 bool isPalindrome(std::string s) {
-  s = processString(s);
+  int l = 0, r = s.length() - 1;
 
-  int i = 0, j = s.length() - 1;
-  while (i <= j) {
-    if (s[i] != s[j])
+  while (l <= r) {
+    while (!isAlphaNum(s[l]) && l < r)
+      l++;
+    while (!isAlphaNum(s[r]) && r > l)
+      r--;
+
+    char lowL = tolower(s[l]);
+    char lowR = tolower(s[r]);
+    if (lowL != lowR)
       return false;
-    i++;
-    j--;
+
+    l++;
+    r--;
   }
 
   return true;
