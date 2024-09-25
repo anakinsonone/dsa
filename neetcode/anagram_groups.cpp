@@ -21,15 +21,50 @@
 */
 
 #include <bits/stdc++.h>
+#include <iostream>
 
 int main() {
   int n;
-  std::vector<std::string> words;
+  std::cin >> n;
+
+  std::vector<std::string> anagrams;
   for (int i = 0; i < n; i++) {
-    std::string word;
-    std::cin >> word;
-    words.push_back(word);
+    std::string s;
+    std::cin >> s;
+    anagrams.push_back(s);
   }
+
+  std::unordered_map<std::string, std::vector<std::string>> ans;
+
+  for (auto &s : anagrams) {
+    std::vector<int> count(26, 0);
+
+    for (auto c : s) {
+      count[c - 'a']++;
+    }
+
+    std::string key;
+    for (auto i : count) {
+      key += std::to_string(i);
+    }
+
+    ans[key].push_back(s);
+  }
+
+  std::vector<std::vector<std::string>> result;
+  for (auto it : ans) {
+    result.push_back(it.second);
+  }
+
+  std::cout << '[';
+  for (auto it : result) {
+    std::cout << '[';
+    for (auto s : it) {
+      std::cout << s << " ";
+    }
+    std::cout << "]";
+  }
+  std::cout << ']';
 
   return 0;
 }
