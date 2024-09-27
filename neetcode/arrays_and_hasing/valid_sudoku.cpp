@@ -44,7 +44,9 @@ without duplicates.
 */
 
 #include <iostream>
-#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 bool isValid(int arr[]) {
   for (int i = 0; i < 10; i++) {
@@ -55,56 +57,34 @@ bool isValid(int arr[]) {
 }
 
 int main() {
-  std::string sudoku[9][9];
-
+  std::vector<std::vector<char>> board(9);
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++) {
-      std::cin >> sudoku[i][j];
+      char c;
+      std::cin >> c;
+      board[i].push_back(c);
     }
   }
 
+  std::unordered_map<int, std::unordered_set<char>> cols;
+  std::unordered_map<int, std::unordered_set<char>> rows;
+  std::unordered_map<int, std::unordered_set<char>> grids;
+
   bool res = true;
-  for (int i = 0; i < 9; i++) {
-    int rowFreq[10] = {0};
-    for (int j = 0; j < 9; j++) {
-      if (sudoku[i][j] == ".")
+  for (int r = 0; r < 9; r++) {
+    for (int c = 0; c < 9; c++) {
+      char cell = board[r][c];
+      if (cell == '.')
         continue;
-      int ele = std::stoi(sudoku[i][j]);
-      rowFreq[ele]++;
-    }
-    if (!isValid(rowFreq)) {
-      res = false;
-      break;
-    }
 
-    int colFreq[10] = {0};
-    for (int j = 0; j < 9; j++) {
-      if (sudoku[j][i] == ".")
-        continue;
-      int ele = std::stoi(sudoku[j][i]);
-      colFreq[ele]++;
-    }
-    if (!isValid(colFreq)) {
-      res = false;
-      break;
-    }
-
-    int boxFreq[10] = {0};
-    int jStart = (i / 3) * 3;
-    int jLimit = jStart + 3;
-    int kStart = (i % 3) * 3;
-    int kLmit = kStart + 3;
-    for (int j = jStart; j < jLimit; j++) {
-      for (int k = kStart; k < kLmit; k++) {
-        if (sudoku[j][k] == ".")
-          continue;
-        int ele = std::stoi(sudoku[j][k]);
-        boxFreq[ele]++;
+      if (rows[r].count(cell) || cols[c].count(cell) ||
+          grids[(r / 3) * 3 + c / 3].count(cell)) {
+        res = false;
+        break;
       }
-    }
-    if (!isValid(boxFreq)) {
-      res = false;
-      break;
+      rows[r].insert(cell);
+      cols[c].insert(cell);
+      grids[(r / 3) * 3 + c / 3].insert(cell);
     }
   }
 
