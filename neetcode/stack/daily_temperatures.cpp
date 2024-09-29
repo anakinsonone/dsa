@@ -19,6 +19,8 @@
 */
 
 #include <iostream>
+#include <stack>
+#include <utility>
 #include <vector>
 int main() {
   int n;
@@ -27,16 +29,29 @@ int main() {
   for (int i = 0; i < n; i++)
     std::cin >> temperatures[i];
 
-  // brute force
   std::vector<int> result(n, 0);
+
+  // brute force
+  // for (int i = 0; i < temperatures.size(); i++) {
+  //   int t = temperatures[i];
+  //   for (int j = i + 1; j < temperatures.size(); j++) {
+  //     if (temperatures[j] > t) {
+  //       result[i] = j - i;
+  //       break;
+  //     }
+  //   }
+  // }
+
+  // optimized
+  std::stack<std::pair<int, int>> stack;
   for (int i = 0; i < temperatures.size(); i++) {
     int t = temperatures[i];
-    for (int j = i + 1; j < temperatures.size(); j++) {
-      if (temperatures[j] > t) {
-        result[i] = j - i;
-        break;
-      }
+    while (!stack.empty() && t > stack.top().first) {
+      std::pair<int, int> pair = stack.top();
+      result[pair.second] = i - pair.second;
+      stack.pop();
     }
+    stack.push({t, i});
   }
 
   for (int i : result) {
