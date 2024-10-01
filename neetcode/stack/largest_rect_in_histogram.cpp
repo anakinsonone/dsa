@@ -17,7 +17,10 @@
  * Output: 7
 */
 
+#include <algorithm>
 #include <iostream>
+#include <stack>
+#include <utility>
 #include <vector>
 int main() {
   int n;
@@ -27,26 +30,30 @@ int main() {
     std::cin >> heights[i];
 
   int maxArea = 0;
-  for (int i = 0; i < n; i++) {
-    int height = heights[i];
-    int left = i - 1, right = i + 1;
-    int count = 1;
+  std::stack<std::pair<int, int>> stack;
 
-    while (left >= 0 && heights[left] >= height) {
-      count++;
-      left--;
+  for (int i = 0; i < heights.size(); i++) {
+    int start = i;
+    while (!stack.empty() && stack.top().second > heights[i]) {
+      std::pair<int, int> top = stack.top();
+      int index = top.first;
+      int height = top.second;
+      maxArea = std::max(maxArea, height * (i - index));
+      start = index;
+      stack.pop();
     }
-
-    while (right < n && heights[right] >= height) {
-      count++;
-      right++;
-    }
-    std::cout << count << ' ';
-    int area = height * (count);
-    maxArea = std::max(maxArea, area);
+    stack.push({start, heights[i]});
   }
 
-  std::cout << '\n' << maxArea;
+  while (!stack.empty()) {
+    int index = stack.top().first;
+    int height = stack.top().second;
+    maxArea =
+        std::max(maxArea, height * (static_cast<int>(heights.size()) - index));
+    stack.pop();
+  }
+
+  std::cout << maxArea;
 
   return 0;
 }
