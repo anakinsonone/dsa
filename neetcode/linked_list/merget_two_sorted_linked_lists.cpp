@@ -22,7 +22,6 @@
  * Output: []
 
 */
-#include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <vector>
