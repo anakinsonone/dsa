@@ -14,36 +14,9 @@
  * Output: []
 */
 
+#include "LinkedList.h"
 #include <iostream>
 #include <vector>
-
-struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode() : val(0), next(nullptr) {}
-  ListNode(int x) : val(x), next(nullptr) {}
-  ListNode(int x, ListNode *n) : val(x), next(n) {}
-};
-
-ListNode *createLinkedList(std::vector<int> list) {
-  ListNode *head = new ListNode(list[0]);
-  ListNode *temp = head;
-  for (int i = 1; i < list.size(); i++) {
-    ListNode *newNode = new ListNode(list[i]);
-    temp->next = newNode;
-    temp = newNode;
-  }
-
-  return head;
-}
-
-void printLinkedList(ListNode *head) {
-  ListNode *temp = head;
-  while (temp) {
-    std::cout << temp->val << " -> ";
-    temp = temp->next;
-  }
-}
 
 ListNode *reverseLinkedList(ListNode *head) {
   ListNode *temp = head;

@@ -22,39 +22,10 @@
  * Output: []
 
 */
+#include "LinkedList.h"
 #include <cstddef>
 #include <iostream>
 #include <vector>
-
-struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode() : val(0), next(nullptr) {}
-  ListNode(int x) : val(x), next(nullptr) {}
-  ListNode(int x, ListNode *n) : val(x), next(n) {}
-};
-
-ListNode *createLinkedList(std::vector<int> nums) {
-  ListNode *head = new ListNode(nums[0]);
-  ListNode *temp = head;
-
-  for (int i = 1; i < nums.size(); i++) {
-    ListNode *newNode = new ListNode(nums[i]);
-    temp->next = newNode;
-    temp = newNode;
-  }
-
-  return head;
-}
-
-void printLinkedList(ListNode *head) {
-  ListNode *temp = head;
-  while (temp) {
-    std::cout << temp->val << " -> ";
-    temp = temp->next;
-  }
-  std::cout << '\n';
-}
 
 ListNode *mergeSortedLists(ListNode *list1, ListNode *list2) {
   ListNode *dummy = new ListNode();
