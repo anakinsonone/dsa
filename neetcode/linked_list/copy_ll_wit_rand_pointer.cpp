@@ -46,6 +46,46 @@ struct Node {
   Node(int x, Node *n, Node *r) : val(x), next(n), random(r) {}
 };
 
+void insertNodeInBetween(Node *head) {
+  Node *temp = head;
+  while (temp) {
+    Node *nextNode = temp->next;
+
+    Node *copy = new Node(temp->val);
+    temp->next = copy;
+    copy->next = nextNode;
+
+    temp = temp->next->next;
+  }
+}
+
+void connectRandomPointers(Node *head) {
+  Node *temp = head;
+  while (temp) {
+    if (temp->random) {
+      temp->next->random = temp->random->next;
+    } else {
+      temp->next->random = nullptr;
+    }
+
+    temp = temp->next->next;
+  }
+}
+
+Node *getCopyOfList(Node *head) {
+  Node *temp = head;
+  Node *d = new Node(0);
+  Node *res = d;
+  while (temp) {
+    res->next = temp->next;
+    res = res->next;
+
+    temp->next = res->next;
+    temp = temp->next;
+  }
+  return d->next;
+}
+
 int main() {
   // nodes
   Node *head = new Node(3);
