@@ -2,6 +2,8 @@
 
 ListNode *createLinkedList(std::vector<int> list) {
   ListNode *head = new ListNode(list[0]);
+  if (list.size() == 1)
+    return head;
   ListNode *temp = head;
   for (int i = 1; i < list.size(); i++) {
     ListNode *newNode = new ListNode(list[i]);
