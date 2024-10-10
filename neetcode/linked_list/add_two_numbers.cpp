@@ -30,52 +30,39 @@
 int main() {
   int n, m;
   std::cin >> n >> m;
-  std::vector<int> l1(n);
-  std::vector<int> l2(m);
+  std::vector<int> list1(n);
+  std::vector<int> list2(m);
 
   for (int i = 0; i < n; i++)
-    std::cin >> l1[i];
+    std::cin >> list1[i];
 
   for (int i = 0; i < m; i++)
-    std::cin >> l2[i];
+    std::cin >> list2[i];
 
-  ListNode *head1 = createLinkedList(l1);
-  ListNode *head2 = createLinkedList(l2);
+  ListNode *head1 = createLinkedList(list1);
+  ListNode *head2 = createLinkedList(list2);
 
-  printLinkedList(head1);
-  printLinkedList(head2);
+  ListNode *l1 = head1, *l2 = head2;
 
-  int num1 = 0, num2 = 0, pow = 1;
-  ListNode *temp = head1;
-  while (temp) {
-    num1 += temp->val * pow;
+  ListNode *d = new ListNode();
+  ListNode *temp = d;
+
+  int carry = 0;
+  while (l1 != nullptr || l2 != nullptr || carry != 0) {
+    int d1 = (l1 != nullptr) ? l1->val : 0;
+    int d2 = (l2 != nullptr) ? l2->val : 0;
+
+    int val = d1 + d2 + carry;
+    carry = val / 10;
+    val = val % 10;
+    temp->next = new ListNode(val);
     temp = temp->next;
-    pow *= 10;
+
+    l1 = (l1) ? l1->next : nullptr;
+    l2 = (l2) ? l2->next : nullptr;
   }
 
-  temp = head2;
-  pow = 1;
-  while (temp) {
-    num2 += temp->val * pow;
-    temp = temp->next;
-    pow *= 10;
-  }
-
-  std::cout << "num1: " << num1 << '\n' << "num2: " << num2;
-  int sum = num1 + num2;
-  std::cout << '\n' << "sum: " << sum;
-
-  std::vector<int> res;
-  while (sum >= 0) {
-    int digit = sum % 10;
-    res.push_back(digit);
-    sum = sum / 10;
-    if (sum == 0)
-      break;
-  }
-  ListNode *resHead = createLinkedList(res);
-  std::cout << '\n';
-  printLinkedList(resHead);
+  printLinkedList(d->next);
 
   return 0;
 }
