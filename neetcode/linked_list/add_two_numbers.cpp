@@ -5,8 +5,8 @@
  * non-negative integer.
 
  * The digits are stored in reverse order, e.g. the number 123 is represented as
- 3
- * -> 2 -> 1 -> in the linked list.
+
+ * 3 -> 2 -> 1 -> in the linked list.
 
  * Each of the nodes contains a single digit. You may assume the two numbers do
  not
