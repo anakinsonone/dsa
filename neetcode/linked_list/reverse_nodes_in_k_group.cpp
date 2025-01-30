@@ -15,7 +15,19 @@ nodes.
 */
 
 #include "LinkedList.h"
+#include <cstddef>
+#include <iostream>
 #include <vector>
+
+ListNode *getKthNode(ListNode *curr, int k) {
+  while (k > 0 && curr != NULL) {
+    curr = curr->next;
+    k--;
+  }
+
+  return curr;
+}
+
 int main() {
   int n, k;
   std::cin >> n;
@@ -27,6 +39,33 @@ int main() {
 
   ListNode *head = createLinkedList(input);
   printLinkedList(head);
+
+  ListNode *dummy = new ListNode(0, head);
+  ListNode *groupPrev = dummy;
+
+  while (true) {
+    ListNode *kth = getKthNode(groupPrev, k);
+    if (!kth) {
+      break;
+    }
+
+    ListNode *groupNext = kth->next;
+
+    ListNode *curr = groupPrev->next;
+    ListNode *prev = kth->next;
+    while (curr != groupNext) {
+      ListNode *next = curr->next;
+      curr->next = prev;
+      prev = curr;
+      curr = next;
+    }
+
+    ListNode *temp = groupPrev->next;
+    groupPrev->next = kth;
+    groupPrev = temp;
+  }
+
+  printLinkedList(dummy->next);
 
   return 0;
 }
