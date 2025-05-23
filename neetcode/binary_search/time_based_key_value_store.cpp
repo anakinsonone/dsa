@@ -62,6 +62,7 @@ public:
         right = mid - 1;
       }
     }
+    return res;
   }
 };
 
