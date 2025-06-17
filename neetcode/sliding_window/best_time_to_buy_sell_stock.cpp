@@ -27,15 +27,17 @@ int main() {
     std::cin >> prices[i];
   }
 
-  int max_profit = 0;
-  for (int i = 0; i < prices.size(); i++) {
-    for (int j = i + 1; j < prices.size(); j++) {
-      int profit = prices[j] - prices[i];
-      max_profit = std::max(profit, max_profit);
+  int maxProfit = 0;
+  int minPurchase = prices[0];
+  for (int i = 1; i < prices.size(); i++) {
+    if (prices[i] < minPurchase) {
+      minPurchase = prices[i];
+    } else {
+      maxProfit = std::max(maxProfit, prices[i] - minPurchase);
     }
   }
 
-  std::cout << max_profit;
+  std::cout << maxProfit;
 
   return 0;
 }
