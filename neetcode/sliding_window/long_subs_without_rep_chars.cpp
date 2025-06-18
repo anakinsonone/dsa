@@ -22,12 +22,15 @@ int main() {
   std::cin >> s;
 
   int res = 0;
-  for (int i = 0; i < s.size(); i++) {
-    std::unordered_set<char> charSet;
-    for (int j = i; j < s.size(); j++) {
-      if (charSet.find(s[j]) != charSet.end())
-        break;
-      charSet.insert(s[j]);
+  int left = 0, right = 0;
+  std::unordered_set<char> charSet;
+  while (right < s.size() && left < s.size()) {
+    if (charSet.find(s[right]) != charSet.end()) {
+      charSet.erase(s[left]);
+      left++;
+    } else {
+      charSet.insert(s[right]);
+      right++;
     }
     res = std::max(res, (int)charSet.size());
   }
