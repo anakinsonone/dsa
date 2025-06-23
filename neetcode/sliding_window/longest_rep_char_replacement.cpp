@@ -26,18 +26,19 @@ int main() {
   std::cin >> s; // input string
   std::cin >> k; // replacements
 
-  int res = 0;
-  for (int i = 0; i < s.size(); i++) {
-    std::unordered_map<char, int> charMap;
-    int maxF = 0;
-    for (int j = i; j < s.size(); j++) {
-      // increment count for char in this substring
-      charMap[s[j]]++;
-      // find the char with maxFreq
-      maxF = std::max(maxF, charMap[s[j]]);
-      if ((j - i + 1) - maxF <= k) {
-        res = std::max(res, (j - i + 1));
-      }
+  int res = 0, left = 0, right = 0;
+  std::unordered_map<char, int> charMap;
+  int maxF = 0;
+  while (left < s.size() && right < s.size()) {
+    charMap[s[right]]++;
+    maxF = std::max(maxF, charMap[s[right]]);
+    int strLen = right - left + 1;
+    if (strLen - maxF <= k) {
+      res = std::max(res, strLen);
+      right++;
+    } else {
+      charMap[s[left]]--;
+      left++;
     }
   }
 
