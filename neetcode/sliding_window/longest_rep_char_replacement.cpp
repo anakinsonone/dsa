@@ -26,20 +26,22 @@ int main() {
   std::cin >> s; // input string
   std::cin >> k; // replacements
 
-  int res = 0, left = 0, right = 0;
   std::unordered_map<char, int> charMap;
-  int maxF = 0;
-  while (left < s.size() && right < s.size()) {
+  int res = 0, left = 0, maxF = 0;
+
+  for (int right = 0; right < s.size(); right++) {
+    // increment char freq
     charMap[s[right]]++;
+    // find the char with max freq
     maxF = std::max(maxF, charMap[s[right]]);
-    int strLen = right - left + 1;
-    if (strLen - maxF <= k) {
-      res = std::max(res, strLen);
-      right++;
-    } else {
+
+    // reduce count for char at left pointer while moving the left pointer
+    while ((right - left + 1) - maxF > k) {
       charMap[s[left]]--;
       left++;
     }
+
+    res = std::max(res, (right - left + 1));
   }
 
   std::cout << res;
