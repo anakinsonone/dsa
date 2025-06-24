@@ -15,28 +15,46 @@ means if a permutation of s1 exists as a substring of s2, then return true.
  * Input: s1 = "abc", s2 = "lecaabee"
  * Output: false
 */
-#include <algorithm>
 #include <iostream>
 #include <string>
+#include <unordered_map>
+
+bool checkInclusion(std::string s1, std::string s2) {
+  std::unordered_map<char, int> charMap;
+  for (char c : s1) {
+    charMap[c]++;
+  }
+  int need = charMap.size();
+
+  for (int i = 0; i < s2.length(); i++) {
+    std::unordered_map<char, int> charMap2;
+    int count = 0;
+    for (int j = i; j < s2.length(); j++) {
+      char c = s2[j];
+      charMap2[c]++;
+
+      if (charMap[c] < charMap2[c]) {
+        break;
+      }
+
+      if (charMap2[c] == charMap[c]) {
+        count++;
+      }
+
+      if (count == need) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
 
 int main() {
   std::string s1, s2;
   std::cin >> s1 >> s2;
 
-  std::sort(s1.begin(), s1.end());
-  bool res = false;
-  for (int i = 0; i < s2.size(); i++) {
-    for (int j = i; j < s2.size(); j++) {
-      std::string sub = s2.substr(i, j - i + 1);
-      std::sort(sub.begin(), sub.end());
-      if (sub == s1) {
-        res = true;
-        break;
-      }
-    }
-  }
-
-  std::cout << res;
+  std::cout << (checkInclusion(s1, s2) ? "true" : "false");
 
   return 0;
 }
