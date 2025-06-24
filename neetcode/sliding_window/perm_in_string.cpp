@@ -17,44 +17,59 @@ means if a permutation of s1 exists as a substring of s2, then return true.
 */
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 bool checkInclusion(std::string s1, std::string s2) {
-  std::unordered_map<char, int> charMap;
-  for (char c : s1) {
-    charMap[c]++;
+  if (s1.length() > s2.length()) {
+    return false;
   }
-  int need = charMap.size();
 
-  for (int i = 0; i < s2.length(); i++) {
-    std::unordered_map<char, int> charMap2;
-    int count = 0;
-    for (int j = i; j < s2.length(); j++) {
-      char c = s2[j];
-      charMap2[c]++;
+  std::vector<int> s1Count(26, 0);
+  std::vector<int> s2Count(26, 0);
+  for (int i = 0; i < s1.length(); i++) {
+    s1Count[s1[i] - 'a']++;
+    s2Count[s2[i] - 'a']++;
+  }
 
-      if (charMap[c] < charMap2[c]) {
-        break;
-      }
-
-      if (charMap2[c] == charMap[c]) {
-        count++;
-      }
-
-      if (count == need) {
-        return true;
-      }
+  int matches = 0;
+  for (int i = 0; i < 26; i++) {
+    if (s1Count[i] == s2Count[i]) {
+      matches++;
     }
   }
 
-  return false;
+  int l = 0;
+  for (int r = s1.length(); r < s2.length(); r++) {
+    if (matches == 26) {
+      return true;
+    }
+
+    int index = s2[r] - 'a';
+    s2Count[index]++;
+    if (s1Count[index] == s2Count[index]) {
+      matches++;
+    } else if (s1Count[index] + 1 == s2Count[index]) {
+      matches--;
+    }
+
+    index = s2[l] - 'a';
+    s2Count[index]--;
+    if (s1Count[index] == s2Count[index]) {
+      matches++;
+    } else if (s1Count[index] - 1 == s2Count[index]) {
+      matches--;
+    }
+    l++;
+  }
+
+  return matches == 26;
 }
 
 int main() {
   std::string s1, s2;
   std::cin >> s1 >> s2;
 
-  std::cout << (checkInclusion(s1, s2) ? "true" : "false");
+  std::cout << checkInclusion(s1, s2);
 
   return 0;
 }
