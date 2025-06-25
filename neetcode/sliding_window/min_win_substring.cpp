@@ -22,46 +22,44 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 std::string getMinSubstr(std::string s, std::string t) {
-  if (s.length() < t.length()) {
+  if (s.length() < t.length() || t.empty()) {
     return "";
   }
 
-  std::unordered_map<char, int> tCharMap;
+  std::unordered_map<char, int> countT, window;
   for (char c : t) {
-    tCharMap[c]++;
+    countT[c]++;
   }
 
-  std::string res = "";
-  int minLen = INT_MAX;
-  for (int i = 0; i < s.length(); i++) {
-    for (int j = i; j < s.length(); j++) {
-      if (j - i + 1 < t.length()) {
-        continue;
+  int l = 0, have = 0, need = countT.size(), resLen = INT_MAX;
+  std::pair<int, int> res{-1, -1};
+  for (int r = 0; r < s.length(); r++) {
+    char c = s[r];
+    window[c]++;
+
+    if (countT.count(c) && window[c] == countT[c]) {
+      have++;
+    }
+
+    while (have == need) {
+      if (r - l + 1 < resLen) {
+        res = {l, r};
+        resLen = r - l + 1;
       }
 
-      std::unordered_map<char, int> subCharMap;
-      for (int k = i; k <= j; k++) {
-        subCharMap[s[k]]++;
+      window[s[l]]--;
+      if (countT.count(s[l]) && window[s[l]] < countT[s[l]]) {
+        have--;
       }
 
-      bool contains = true;
-      for (char c : t) {
-        if (subCharMap[c] < tCharMap[c]) {
-          contains = false;
-          break;
-        }
-      }
-
-      if (contains && j - i + 1 < minLen) {
-        res = s.substr(i, j - i + 1);
-        minLen = j - i + 1;
-      }
+      l++;
     }
   }
 
-  return res;
+  return resLen == INT_MAX ? "" : s.substr(res.first, resLen);
 }
 
 int main() {
