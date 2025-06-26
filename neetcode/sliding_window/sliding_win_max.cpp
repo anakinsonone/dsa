@@ -18,8 +18,8 @@
  *  1  2  1  0 [4  2  6]       6
  */
 
+#include <deque>
 #include <iostream>
-#include <queue>
 #include <vector>
 
 std::vector<int> findMaxInWindows(std::vector<int> nums, int k) {
@@ -27,26 +27,33 @@ std::vector<int> findMaxInWindows(std::vector<int> nums, int k) {
     return nums;
   }
 
-  int l = 0, r = k - 1;
-  std::vector<int> maximums;
-
+  int n = nums.size();
+  std::vector<int> res(n - k + 1);
+  std::deque<int> dq;
+  int l = 0, r = 0;
   while (r < nums.size()) {
-    std::priority_queue<int> pq;
-    for (int i = l; i <= r; i++) {
-      pq.push(nums[i]);
+    // pop smaller values from front
+    while (!dq.empty() && nums[dq.back()] < nums[r]) {
+      dq.pop_back();
+    }
+    // push newer value into the window
+    dq.push_back(r);
+
+    // remove left value from the window
+    if (l > dq.front()) {
+      dq.pop_front();
     }
 
-    maximums.push_back(pq.top());
-
-    while (pq.size()) {
-      pq.pop();
+    // maintain window length
+    if ((r + 1) >= k) {
+      // insert the max in the output vector
+      res[l] = nums[dq.front()];
+      l++;
     }
-
     r++;
-    l++;
   }
 
-  return maximums;
+  return res;
 }
 
 int main() {
