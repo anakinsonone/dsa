@@ -31,7 +31,7 @@ std::vector<int> findMaxInWindows(std::vector<int> nums, int k) {
   std::vector<int> res(n - k + 1);
   std::deque<int> dq;
   int l = 0, r = 0;
-  while (r < nums.size()) {
+  while (r < n) {
     // pop smaller values from front
     while (!dq.empty() && nums[dq.back()] < nums[r]) {
       dq.pop_back();
