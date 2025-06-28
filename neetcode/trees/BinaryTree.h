@@ -20,11 +20,14 @@ template <typename T> struct TreeNode {
 
 template <typename T>
 TreeNode<T> *createBinaryTree(const std::vector<T> &values) {
+  // if input vector is empty, return a null pointer
   if (values.empty()) {
     return nullptr;
   }
 
+  // create the root node
   TreeNode<T> *root = new TreeNode<T>(values[0]);
+  // use a queue to push the children in order
   std::queue<TreeNode<T> *> q;
   q.push(root);
 
@@ -33,12 +36,14 @@ TreeNode<T> *createBinaryTree(const std::vector<T> &values) {
     TreeNode<T> *current = q.front();
     q.pop();
 
+    // Add the left node
     if (i < values.size()) {
       current->left = new TreeNode<T>(values[i]);
       q.push(current->left);
       i++;
     }
 
+    // Add the right node
     if (i < values.size()) {
       current->right = new TreeNode<T>(values[i]);
       q.push(current->right);
