@@ -2,6 +2,7 @@
 #define BINARY_TREE_H
 
 #include <iostream>
+#include <optional>
 #include <queue>
 #include <vector>
 
@@ -19,15 +20,12 @@ template <typename T> struct TreeNode {
 };
 
 template <typename T>
-TreeNode<T> *createBinaryTree(const std::vector<T> &values) {
-  // if input vector is empty, return a null pointer
-  if (values.empty()) {
+TreeNode<T> *createBinaryTree(const std::vector<std::optional<T>> &values) {
+  if (values.empty() || !values[0]) {
     return nullptr;
   }
 
-  // create the root node
-  TreeNode<T> *root = new TreeNode<T>(values[0]);
-  // use a queue to push the children in order
+  TreeNode<T> *root = new TreeNode<T>(values[0].value());
   std::queue<TreeNode<T> *> q;
   q.push(root);
 
@@ -36,19 +34,19 @@ TreeNode<T> *createBinaryTree(const std::vector<T> &values) {
     TreeNode<T> *current = q.front();
     q.pop();
 
-    // Add the left node
-    if (i < values.size()) {
-      current->left = new TreeNode<T>(values[i]);
+    // Add left child
+    if (i < values.size() && values[i].has_value()) {
+      current->left = new TreeNode<T>(values[i].value());
       q.push(current->left);
-      i++;
     }
+    i++;
 
-    // Add the right node
-    if (i < values.size()) {
-      current->right = new TreeNode<T>(values[i]);
+    // Add right child
+    if (i < values.size() && values[i].has_value()) {
+      current->right = new TreeNode<T>(values[i].value());
       q.push(current->right);
-      i++;
     }
+    i++;
   }
 
   return root;
