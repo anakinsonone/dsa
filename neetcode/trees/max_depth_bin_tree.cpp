@@ -14,6 +14,8 @@
 #include <deque>
 #include <iostream>
 #include <optional>
+#include <stack>
+#include <utility>
 #include <vector>
 
 int treeDepth(BinaryTree::TreeNode<int> *root) {
@@ -22,22 +24,40 @@ int treeDepth(BinaryTree::TreeNode<int> *root) {
   // recursion
   // return 1 + std::max(treeDepth(root->left), treeDepth(root->right));
 
+  int level = 1;
   // BFS
-  std::deque<BinaryTree::TreeNode<int> *> dq;
-  dq.push_back(root);
+  // std::deque<BinaryTree::TreeNode<int> *> dq;
+  // dq.push_back(root);
+  //
+  // while (!dq.empty()) {
+  //   for (int i = 0; i < dq.size(); i++) {
+  //     BinaryTree::TreeNode<int> *current = dq.front();
+  //     dq.pop_front();
+  //
+  //     if (current->left)
+  //       dq.push_back(current->left);
+  //     if (current->right)
+  //       dq.push_back(current->right);
+  //   }
+  //   level++;
+  // }
 
-  int level = 0;
-  while (!dq.empty()) {
-    for (int i = 0; i < dq.size(); i++) {
-      BinaryTree::TreeNode<int> *current = dq.front();
-      dq.pop_front();
+  // DFS
+  std::stack<std::pair<BinaryTree::TreeNode<int> *, int>> st;
+  st.push({root, 1});
 
+  while (!st.empty()) {
+    BinaryTree::TreeNode<int> *current = st.top().first;
+    int l = st.top().second;
+    st.pop();
+
+    if (current) {
+      level = std::max(level, l);
       if (current->left)
-        dq.push_back(current->left);
+        st.push({current->left, l + 1});
       if (current->right)
-        dq.push_back(current->right);
+        st.push({current->right, l + 1});
     }
-    level++;
   }
 
   return level;
@@ -60,7 +80,7 @@ int main() {
   BinaryTree::TreeNode<int> *root = BinaryTree::createBinaryTree(nums);
   BinaryTree::printBinaryTree(root);
 
-  std::cout << treeDepth(root);
+  std::cout << "depth: " << treeDepth(root);
 
   return 0;
 }
