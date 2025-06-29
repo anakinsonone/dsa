@@ -11,6 +11,7 @@
  */
 #include "BinaryTree.h"
 #include <algorithm>
+#include <deque>
 #include <iostream>
 #include <optional>
 #include <vector>
@@ -18,8 +19,28 @@
 int treeDepth(BinaryTree::TreeNode<int> *root) {
   if (!root)
     return 0;
+  // recursion
+  // return 1 + std::max(treeDepth(root->left), treeDepth(root->right));
 
-  return 1 + std::max(treeDepth(root->left), treeDepth(root->right));
+  // BFS
+  std::deque<BinaryTree::TreeNode<int> *> dq;
+  dq.push_back(root);
+
+  int level = 0;
+  while (!dq.empty()) {
+    for (int i = 0; i < dq.size(); i++) {
+      BinaryTree::TreeNode<int> *current = dq.front();
+      dq.pop_front();
+
+      if (current->left)
+        dq.push_back(current->left);
+      if (current->right)
+        dq.push_back(current->right);
+    }
+    level++;
+  }
+
+  return level;
 }
 
 int main() {
