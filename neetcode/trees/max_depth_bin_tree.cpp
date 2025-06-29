@@ -30,7 +30,8 @@ int treeDepth(BinaryTree::TreeNode<int> *root) {
   // dq.push_back(root);
   //
   // while (!dq.empty()) {
-  //   for (int i = 0; i < dq.size(); i++) {
+  //   int size = dq.size();
+  //   for (int i = 0; i < size; i++) {
   //     BinaryTree::TreeNode<int> *current = dq.front();
   //     dq.pop_front();
   //
