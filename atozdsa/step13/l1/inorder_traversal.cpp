@@ -1,5 +1,5 @@
 /*
- * Given root of binary tree, return the preorder traversal of the binary
+ * Given root of binary tree, return the inorder traversal of the binary
  * tree.
  */
 #include "BinaryTree.h"
