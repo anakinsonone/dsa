@@ -26,6 +26,7 @@ int treeDepth(BinaryTree::TreeNode<int> *root) {
 
   int level = 1;
   // BFS
+  // int level = 0;
   // std::deque<BinaryTree::TreeNode<int> *> dq;
   // dq.push_back(root);
   //
@@ -71,7 +72,7 @@ int main() {
   for (int i = 0; i < n; i++) {
     int val;
     std::cin >> val;
-    if (val == -1) {
+    if (val == -101) {
       nums[i] = std::nullopt;
     } else {
       nums[i] = val;
