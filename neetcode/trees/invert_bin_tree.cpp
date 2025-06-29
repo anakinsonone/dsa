@@ -1,7 +1,7 @@
 /**/
 #include "BinaryTree.h"
 #include <iostream>
-#include <queue>
+#include <optional>
 #include <vector>
 
 BinaryTree::TreeNode<int> *invertBinaryTree(BinaryTree::TreeNode<int> *root) {
@@ -22,7 +22,7 @@ BinaryTree::TreeNode<int> *invertBinaryTree(BinaryTree::TreeNode<int> *root) {
 int main() {
   int n;
   std::cin >> n;
-  std::vector<int> values(n, 0);
+  std::vector<std::optional<int>> values(n, 0);
   for (int i = 0; i < n; i++) {
     std::cin >> values[i];
   }
