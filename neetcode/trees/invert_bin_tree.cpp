@@ -24,7 +24,13 @@ int main() {
   std::cin >> n;
   std::vector<std::optional<int>> values(n, 0);
   for (int i = 0; i < n; i++) {
-    std::cin >> values[i];
+    int val;
+    std::cin >> val;
+    if (val == -1) {
+      values[i] = std::nullopt;
+    } else {
+      values[i] = val;
+    }
   }
 
   BinaryTree::TreeNode<int> *root = BinaryTree::createBinaryTree(values);
