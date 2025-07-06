@@ -24,6 +24,28 @@
 
 #include "BinaryTree.h"
 
+bool isSameTree(BinaryTree::TreeNode<int>* p, BinaryTree::TreeNode<int>* q) {
+  if (!p && !q) return true;
+
+  if (p && q && p->value == q->value) {
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+  } else {
+    return false;
+  }
+}
+
+bool isSubTree(BinaryTree::TreeNode<int>* root,
+               BinaryTree::TreeNode<int>* subRoot) {
+  if (!subRoot) return true;
+  if (!root) return false;
+
+  if (isSameTree(root, subRoot)) {
+    return true;
+  } else {
+    return isSubTree(root->left, subRoot) || isSubTree(root->right, subRoot);
+  }
+}
+
 int main() {
   int m, n;
   std::cin >> m >> n;
@@ -50,6 +72,11 @@ int main() {
 
   BinaryTree::TreeNode<int>* root = BinaryTree::createBinaryTree(mNums);
   BinaryTree::TreeNode<int>* subroot = BinaryTree::createBinaryTree(nNums);
+
+  BinaryTree::printBinaryTree(root);
+  BinaryTree::printBinaryTree(subroot);
+
+  std::cout << (isSubTree(root, subroot) ? "true" : "false");
 
   return 0;
 }
