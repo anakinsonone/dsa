@@ -27,19 +27,24 @@
  * Constraints:
  * 1 <= m, n <= 100*/
 #include <iostream>
+#include <vector>
 
-int uniquePaths(int rows, int cols, int r, int c) {
+int uniquePaths(int rows, int cols, int r, int c,
+                std::vector<std::vector<int>>& hash) {
   if (r == rows - 1 && c == cols - 1) return 1;
   if (r >= rows || c >= cols) return 0;
 
-  return uniquePaths(rows, cols, r + 1, c) + uniquePaths(rows, cols, r, c + 1);
+  if (hash[r][c] != -1) return hash[r][c];
+  return hash[r][c] = uniquePaths(rows, cols, r + 1, c, hash) +
+                      uniquePaths(rows, cols, r, c + 1, hash);
 }
 
 int main() {
   int rows, cols;
   std::cin >> rows >> cols;
+  std::vector<std::vector<int>> hash(rows, std::vector<int>(cols, -1));
 
-  std::cout << uniquePaths(rows, cols, 0, 0);
+  std::cout << uniquePaths(rows, cols, 0, 0, hash);
 
   return 0;
 }
