@@ -44,7 +44,17 @@ int main() {
   std::cin >> rows >> cols;
   std::vector<std::vector<int>> hash(rows, std::vector<int>(cols, -1));
 
-  std::cout << uniquePaths(rows, cols, 0, 0, hash);
+  std::cout << uniquePaths(rows, cols, 0, 0, hash) << '\n';
+
+  int n = rows + cols - 2;
+  int r = rows - 1;
+
+  int res = 1;
+  for (int i = 1; i <= r; i++) {
+    res = res * (n - r + i) / i;
+  }
+
+  std::cout << res;
 
   return 0;
 }
