@@ -2,18 +2,38 @@
  * Given root of binary tree, return the inorder traversal of the binary
  * tree.
  */
-#include "BinaryTree.h"
 #include <iostream>
 #include <optional>
+#include <stack>
 #include <vector>
 
+#include "BinaryTree.h"
+
 void inorderTraversal(BinaryTree::TreeNode<int> *root, std::vector<int> &arr) {
-  if (!root)
-    return;
+  if (!root) return;
 
   inorderTraversal(root->left, arr);
   arr.push_back(root->value);
   inorderTraversal(root->right, arr);
+}
+
+void iterativeInorder(BinaryTree::TreeNode<int> *root, std::vector<int> &arr) {
+  if (!root) return;
+
+  std::stack<BinaryTree::TreeNode<int> *> st;
+  BinaryTree::TreeNode<int> *curr = root;
+
+  while (!st.empty() || curr != nullptr) {
+    while (curr != nullptr) {
+      st.push(curr);
+      curr = curr->left;
+    }
+    curr = st.top();
+    st.pop();
+
+    arr.push_back(curr->value);
+    curr = curr->right;
+  }
 }
 
 int main() {
@@ -36,7 +56,8 @@ int main() {
 
   std::vector<int> res;
 
-  inorderTraversal(root, res);
+  // inorderTraversal(root, res);
+  iterativeInorder(root, res);
   std::cout << "inorder: ";
   for (int r : res) {
     std::cout << r << ' ';
