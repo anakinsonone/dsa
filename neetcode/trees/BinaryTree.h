@@ -1,13 +1,16 @@
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H
 
+#include <algorithm>
 #include <iostream>
 #include <optional>
 #include <queue>
+#include <string>
 #include <vector>
 
 namespace BinaryTree {
-template <typename T> struct TreeNode {
+template <typename T>
+struct TreeNode {
   T value;
   TreeNode *left;
   TreeNode *right;
@@ -52,7 +55,8 @@ TreeNode<T> *createBinaryTree(const std::vector<std::optional<T>> &values) {
   return root;
 }
 
-template <typename T> void printBinaryTree(TreeNode<T> *root) {
+template <typename T>
+void printBinaryTree(TreeNode<T> *root) {
   if (!root) {
     return;
   }
@@ -78,6 +82,43 @@ template <typename T> void printBinaryTree(TreeNode<T> *root) {
   std::cout << '\n';
 }
 
-} // namespace BinaryTree
+template <typename T>
+void printPrettyHelper(TreeNode<T> *root, std::string prefix, bool isLast) {
+  if (root) {
+    std::cout << prefix;
+    std::cout << (isLast ? "└── " : "├── ");
+    std::cout << root->value << std::endl;
 
-#endif // !BINARY_TREE_H
+    std::string newPrefix = prefix + (isLast ? "    " : "│   ");
+
+    if (root->left && root->right) {
+      printPrettyHelper(root->left, newPrefix, false);
+      printPrettyHelper(root->right, newPrefix, true);
+    } else if (root->left) {
+      printPrettyHelper(root->left, newPrefix, true);
+    } else if (root->right) {
+      printPrettyHelper(root->right, newPrefix, true);
+    }
+  }
+}
+
+template <typename T>
+void printPretty(TreeNode<T> *root) {
+  if (!root) {
+    std::cout << "Empty tree" << std::endl;
+    return;
+  }
+  std::cout << root->value << std::endl;
+  if (root->left && root->right) {
+    printPrettyHelper(root->left, "", false);
+    printPrettyHelper(root->right, "", true);
+  } else if (root->left) {
+    printPrettyHelper(root->left, "", true);
+  } else if (root->right) {
+    printPrettyHelper(root->right, "", true);
+  }
+}
+
+}  // namespace BinaryTree
+
+#endif  // !BINARY_TREE_H
