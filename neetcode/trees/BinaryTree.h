@@ -56,53 +56,6 @@ TreeNode<T> *createBinaryTree(const std::vector<std::optional<T>> &values) {
 }
 
 template <typename T>
-void printBinaryTree(TreeNode<T> *root) {
-  if (!root) {
-    return;
-  }
-
-  std::queue<TreeNode<T> *> q;
-  q.push(root);
-
-  while (!q.empty()) {
-    TreeNode<T> *current = q.front();
-    q.pop();
-
-    std::cout << current->value << ' ';
-
-    if (current->left) {
-      q.push(current->left);
-    }
-
-    if (current->right) {
-      q.push(current->right);
-    }
-  }
-
-  std::cout << '\n';
-}
-
-template <typename T>
-void printPrettyHelper(TreeNode<T> *root, std::string prefix, bool isLast) {
-  if (root) {
-    std::cout << prefix;
-    std::cout << (isLast ? "└── " : "├── ");
-    std::cout << root->value << std::endl;
-
-    std::string newPrefix = prefix + (isLast ? "    " : "│   ");
-
-    if (root->left && root->right) {
-      printPrettyHelper(root->left, newPrefix, false);
-      printPrettyHelper(root->right, newPrefix, true);
-    } else if (root->left) {
-      printPrettyHelper(root->left, newPrefix, true);
-    } else if (root->right) {
-      printPrettyHelper(root->right, newPrefix, true);
-    }
-  }
-}
-
-template <typename T>
 void printPretty(TreeNode<T> *root) {
   if (!root) {
     std::cout << "Empty tree" << std::endl;
@@ -116,6 +69,24 @@ void printPretty(TreeNode<T> *root) {
     printPrettyHelper(root->left, "", true);
   } else if (root->right) {
     printPrettyHelper(root->right, "", true);
+  }
+}
+
+template <typename T>
+void printPrettyHelper(TreeNode<T> *root, std::string prefix, bool isLast) {
+  if (root) {
+    std::cout << prefix;
+    std::cout << (isLast ? "└── " : "├── ");
+    std::cout << root->value << std::endl;
+    std::string newPrefix = prefix + (isLast ? "    " : "│   ");
+    if (root->left && root->right) {
+      printPrettyHelper(root->left, newPrefix, false);
+      printPrettyHelper(root->right, newPrefix, true);
+    } else if (root->left) {
+      printPrettyHelper(root->left, newPrefix, true);
+    } else if (root->right) {
+      printPrettyHelper(root->right, newPrefix, true);
+    }
   }
 }
 
