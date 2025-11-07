@@ -58,7 +58,7 @@ TreeNode<T> *createBinaryTree(const std::vector<std::optional<T>> &values) {
 template <typename T>
 void printPretty(TreeNode<T> *root) {
   if (!root) {
-    std::cout << "Empty tree" << std::endl;
+    std::cout << "[]" << std::endl;
     return;
   }
   std::cout << root->value << std::endl;

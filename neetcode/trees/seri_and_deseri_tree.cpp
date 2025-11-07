@@ -28,45 +28,74 @@
  * -1000 <= Node.val <= 1000
  */
 
-#include <deque>
 #include <iostream>
 #include <optional>
 #include <sstream>
-#include <stack>
 #include <string>
 #include <vector>
 
 #include "BinaryTree.h"
 
-std::string join(const std::vector<std::string>& v, char delim) {
-  std::ostringstream s;
-  for (const auto& i : v) {
-    if (&i != &v[0]) s << delim;
-    s << i;
+class Codec {
+ public:
+  std::string serialize(BinaryTree::TreeNode<int>* root) {
+    std::vector<std::string> res;
+    dfsSerialize(root, res);
+    return join(res, ",");
   }
 
-  return s.str();
-}
-
-BinaryTree::TreeNode<int>
-
-void dfsSerialize(BinaryTree::TreeNode<int>* root,
-                  std::vector<std::string>& res) {
-  if (!root) {
-    res.push_back("N");
-    return;
+  BinaryTree::TreeNode<int>* deserialize(std::string data) {
+    std::vector<std::string> vals = split(data, ',');
+    int i = 0;
+    return dfsDeserialize(vals, i);
   }
 
-  res.push_back(std::to_string(root->value));
-  dfsSerialize(root->left, res);
-  dfsSerialize(root->right, res);
-}
+ private:
+  void dfsSerialize(BinaryTree::TreeNode<int>* node,
+                    std::vector<std::string>& res) {
+    if (!node) {
+      res.push_back("N");
+      return;
+    }
+    res.push_back(std::to_string(node->value));
+    dfsSerialize(node->left, res);
+    dfsSerialize(node->right, res);
+  }
 
-std::string serialize(BinaryTree::TreeNode<int>* root) {
-  std::vector<std::string> res;
-  dfsSerialize(root, res);
-  return join(res, ',');
-}
+  BinaryTree::TreeNode<int>* dfsDeserialize(std::vector<std::string>& vals,
+                                            int& i) {
+    if (vals[i] == "N") {
+      i++;
+      return nullptr;
+    }
+    BinaryTree::TreeNode<int>* node =
+        new BinaryTree::TreeNode<int>(std::stoi(vals[i++]));
+    node->left = dfsDeserialize(vals, i);
+    node->right = dfsDeserialize(vals, i);
+    return node;
+  }
+
+  std::string join(std::vector<std::string>& v, std::string delim) {
+    std::ostringstream s;
+    for (const auto& i : v) {
+      if (&i != &v[0]) {
+        s << delim;
+      }
+      s << i;
+    }
+    return s.str();
+  }
+
+  std::vector<std::string> split(const std::string& s, char delim) {
+    std::vector<std::string> elems;
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+      elems.push_back(item);
+    }
+    return elems;
+  }
+};
 
 int main() {
   int n;
@@ -85,8 +114,11 @@ int main() {
   BinaryTree::TreeNode<int>* root = BinaryTree::createBinaryTree(nums);
   BinaryTree::printPretty(root);
 
-  std::string res = serialize(root);
-  std::cout << res;
+  Codec c;
+  std::string seri = c.serialize(root);
+  std::cout << seri << '\n';
+  BinaryTree::TreeNode<int>* deseri = c.deserialize(seri);
+  BinaryTree::printPretty(deseri);
 
   return 0;
 }
