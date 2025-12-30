@@ -20,60 +20,48 @@
 #include <string>
 #include <vector>
 
-bool validPalindrome(std::string s) {
-  int i = 0, j = s.length() - 1;
-  while (i <= j) {
-    if (s[i] != s[j]) {
+bool validPalindrome(std::string s, int l, int r) {
+  while (l <= r) {
+    if (s[l] != s[r]) {
       return false;
     }
-    i++;
-    j--;
+    l++;
+    r--;
   }
   return true;
 }
 
 std::vector<std::string> pals;
 
-void dfs(std::string& input, std::string& s, int i) {
-  if (i == input.size()) {
-    pals.push_back(s);
+void dfs(std::string& s, std::vector<std::vector<std::string>>& res,
+         std::vector<std::string>& part, int i) {
+  if (i == s.size()) {
+    res.push_back(part);
     return;
   }
 
-  s.push_back(input[i]);
-  dfs(input, s, i + 1);
-  s.pop_back();
-  dfs(input, s, i + 1);
+  for (int j = i; j < s.size(); j++) {
+    if (validPalindrome(s, i, j)) {
+      part.push_back(s.substr(i, j - i + 1));
+      dfs(s, res, part, j + 1);
+      part.pop_back();
+    }
+  }
 }
 
 int main() {
   std::string input;
   std::cin >> input;
 
-  // std::vector<std::vector<std::string>> palindromes;
-  // for (int i = 0; i < input.length(); i++) {
-  //   std::vector<std::string> sub;
-  //   for (int j = 0; j < input.size() - i; j++) {
-  //     std::string subs = input.substr(j, i + 1);
-  //     if (validPalindrome(subs)) {
-  //       sub.push_back(subs);
-  //     }
-  //   }
-  //   palindromes.push_back(sub);
-  // }
-  //
-  // for (auto sub : palindromes) {
-  //   for (std::string s : sub) {
-  //     std::cout << s << ", ";
-  //   }
-  //   std::cout << '\n';
-  // }
+  std::vector<std::vector<std::string>> res;
+  std::vector<std::string> part;
+  dfs(input, res, part, 0);
 
-  std::string res;
-  dfs(input, res, 0);
-
-  for (auto p : pals) {
-    std::cout << p << '\n';
+  for (auto& p : res) {
+    for (std::string s : p) {
+      std::cout << s << ' ';
+    }
+    std::cout << '\n';
   }
 
   return 0;
